@@ -25,9 +25,9 @@ class AdmJenkins(Jenkins):
         if not url:
             url = "https://eslinv70.emea.nsn-net.net:8080"
         if not user:
-            user = "adaman"
+            user = "j69wang"
         if not password:
-            password = "7477cf66b2424ed7b72f961be800a239"
+            password = "P@ssword123"
         super(AdmJenkins, self).__init__(url, user, password)
         
     def get_job_releaseid(self, releaseId):
