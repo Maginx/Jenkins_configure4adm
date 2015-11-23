@@ -27,7 +27,7 @@ class AdmJenkins(Jenkins):
         if not user:
             user = "j69wang"
         if not password:
-            password = "P@ssword123"
+            password = "PAssword123"
         super(AdmJenkins, self).__init__(url, user, password)
         
     def get_job_releaseid(self, releaseId):
