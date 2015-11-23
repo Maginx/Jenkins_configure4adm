@@ -2,6 +2,7 @@
 from mimify import File
 import os
 import shutil
+from modules.logger import TraceLog
 
 class FileHandler(File):
     '''File operation class
@@ -15,6 +16,6 @@ class FileHandler(File):
                 os.remove(destFile)
             shutil.copyfile(sourceFile,destFile)
         except  IOError:
-            print("copy job configure file error, %s %s" % (sourceFile, destFile))
+            TraceLog.warning("copy file failed from [%s] to [%s]", (sourceFile, destFile))
             return False
         return True

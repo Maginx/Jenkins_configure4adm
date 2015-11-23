@@ -3,6 +3,7 @@ from modules import errors
 from modules.errors import ShellException
 from modules.admjenkins import AdmJenkins
 from modules.component import TrunkComponent
+from modules.logger import TraceLog
 
 if __name__ == "__main__":
     items = "adaptations_trunk_see-Cloud16.2_ris"
@@ -16,21 +17,19 @@ if __name__ == "__main__":
         if not svnpath:
             print("LOG failed")
             svnpath = "https://svne1.access.nokiasiemensnetworks.com/isource/svnroot/adaptations/trunk/NOKGOMS/NOKGOMS-FMO3.2/"
-            #continue
         trunk = TrunkComponent(svnpath)
         commonpart = trunk.get_common_part()
         adapid, adaprelease = trunk.parse_svn_path()
         jobname = admjenkins.get_job_releaseid(adaprelease)
         if not jobname:
-            print("LOG failed")
+            TraceLog.failed_job(jobname)
+            continue
         manjobname = admjenkins.get_man_job(jobname)
-        if not manjobname:
-            print("LOG failed")
         if admjenkins.config_job(jobname,commonpart):
-            print("LOG success")
+            TraceLog.success_job(jobname)
         else:
-            print("LOG failed")
+            TraceLog.failed_job(jobname)
         if admjenkins.create_job(jobname,commonpart):
-            print("LOG success")
+            TraceLog.success_job(jobname)
         else:
-            print("LOG failed")
+            TraceLog.failed_job(jobname)

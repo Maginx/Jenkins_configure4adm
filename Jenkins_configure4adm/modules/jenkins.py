@@ -8,6 +8,7 @@ import sys
 import warnings
 from shell import run_shell
 from errors import JenkinsException
+from modules.logger import TraceLog
 
 class Jenkins(object):
     '''Jenkins class using urllib2
@@ -41,43 +42,42 @@ class Jenkins(object):
         except urllib2.URLError, e:
             raise JenkinsException(e)
 
-    def job_exists(self, job_name):
+    def job_exists(self, jobName):
         '''
         @param job_name: Name of Jenkins job
         @type  job_name: str
         @return: True if Jenkins job exists
         '''
+        TraceLog.info("Check jenkins job exist or not [%s]" % jobName)
         try:
-            self.get_job(job_name)
+            self.get_job(jobName)
             return True
         except JenkinsException,e:
-            print("ERROR ")
-            print(e)
+            TraceLog.excepiton(e)
             return False
 
     def create_job(self, job_name, config_xml):
         '''create jenkins job with config xml file.
         '''
         if not os.path.exists(config_xml):
-            raise JenkinsException("can't find file %s" % config_xml)
+            TraceLog.error("can't find the file %s " % config_xml)
+            return False
+        if self.job_exists(job_name):
+            TraceLog.error("jenkins job already exist [%s] " % job_name)
+            return False
 
         with open(config_xml) as xml:
             data = xml.read()
-            if self.job_exists(job_name):
-                raise JenkinsException('job [%s] already exists'%(job_name))
             headers = {'Content-Type': 'text/xml'}
             reconfig_url = self._url + self._JENKINS_CREATE_JOB % locals()
             print self._url + "job/" + job_name
             self.__open_jenkins(urllib2.Request(reconfig_url, data, headers))
-            if not self.job_exists(job_name):
-                raise JenkinsException('create[%s] failed'%(job_name))
-            return True
+        
+        return True
 
     def reconfig_job(self, job_name, config_xml):
         '''Change configuration of existing Jenkins job.
-
         To create a new job, see :meth:`Jenkins.create_job`.
-
         @param name: Name of Jenkins job, ``str``
         @param config_xml: New XML configuration, ``str``
         '''

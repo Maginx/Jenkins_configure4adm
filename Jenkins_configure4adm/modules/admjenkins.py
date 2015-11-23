@@ -2,6 +2,7 @@
 from modules.errors import EmptyException, NullException, XmlException, JenkinsException
 from modules.filehandler import FileHandler
 from modules.configurejenkins import ConfigureJenkins
+from modules.logger import TraceLog
 
 class AdmJenkins(Jenkins):
     ''' Configure jenkins job class
@@ -37,11 +38,10 @@ class AdmJenkins(Jenkins):
         '''
         releaseId = self.__filter_release_id(releaseId)
         if not releaseId:
-            print("release id is incorrect")
+            TraceLog.warn("release id is incorrect [%s]" % releaseId)
         jobname = self.__JENKINS_TRUNK_FORMAT % locals()
         if not self.job_exists(jobname):
-
-            return "adaptations_trunk_see-Cloud16.2_ris"
+            return None
         return jobname
      
     def __filter_release_id(self, releaseId):
@@ -116,20 +116,19 @@ class AdmJenkins(Jenkins):
         '''
         pairs = self.__NO_MAN_PAGE % locals()
         if not self.job_exists(jobName):
-            print("ERROR jenkins job doesn't exist [%s]" % jobName)
+            TraceLog.warning("jenkins job name does not exist [%s]" % jobName)
             return False
         configure = self.get_job_xml(jobName)
         manjob = self.get_man_job(jobName)
         if not FileHandler.copyfile(configure,"%s.xml" % manjob):
-            print("ERROR generate man page jenkins config file failed")
+            TraceLog.warning("copy file from [%s] to [%s]" , (configure, "%s.xml" % manjob))
             return False
         try:
             self.__modify_xml(pairs,configure)
             if not self.reconfig_job(jobName,configure):
                 return False
         except Exception,e:
-            print("ERROR")
-            print(e)
+            TraceLog.error(e)
             return False
         return True
 
@@ -148,17 +147,15 @@ class AdmJenkins(Jenkins):
         @param commonpart   : common part to configure, string
         '''
         if self.job_exists(jobName):
-            print("warning")
+            TraceLog.warning("jenkins job alredy exist [%s]" % jobName)
             return True
         pairs = self.__MAN_PAGE % locals() 
         destfile = "%s.xml" % jobName
         try:
             self.__modify_xml(pairs,destfile)
-            super(AdmJenkins,self).create_job(jobName,destfile)
-            return True
+            return super(AdmJenkins, self).create_job(jobName,destfile)
         except  JenkinsException, e:
-            print("ERROR")
-            print(e)
+            TraceLog.error(e)
             return False
 
     def get_svnurl(self, jobName):
