@@ -6,7 +6,7 @@ from modules.component import TrunkComponent
 from modules.logger import TraceLog
 
 if __name__ == "__main__":
-    items = "adaptations_trunk_see-Cloud16.2_ris"
+    items = "adap_ci_test_adm_jenkins_ris"
     # jenkins jobs
     admjenkins = AdmJenkins(url = None, user = None, password = None)
     for item in items.split('/r/n'):
