@@ -11,12 +11,16 @@ if __name__ == "__main__":
     admjenkins = AdmJenkins(url = None, user = None, password = None)
     for item in items.split('/r/n'):
         item = item.strip()
+        print(u"\nConfiguring jenkins job ---------- %s ----------" % item)
         if not admjenkins.job_exists(item):
-            print("[%s] jenkins dosen't exist" % item)
+            TraceLog.error("jenkins job doesn't exsit [%s]" % item)
+            TraceLog.failed_job(item)
+            continue
         svnpath = admjenkins.get_svnurl(item)
         if not svnpath:
-            print("LOG failed")
-            svnpath = "https://svne1.access.nokiasiemensnetworks.com/isource/svnroot/adaptations/trunk/NOKGOMS/NOKGOMS-FMO3.2/"
+             TraceLog.error("jenkins job svn path not exist [%s]" % svnpath)
+             TraceLog.failed_job(item)
+             continue
         trunk = TrunkComponent(svnpath)
         commonpart = trunk.get_common_part()
         adapid, adaprelease = trunk.parse_svn_path()
@@ -33,3 +37,4 @@ if __name__ == "__main__":
             TraceLog.success_job(jobname)
         else:
             TraceLog.failed_job(jobname)
+        

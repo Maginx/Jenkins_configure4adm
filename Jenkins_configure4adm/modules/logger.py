@@ -30,27 +30,45 @@ class TraceLog(object):
 
     @classmethod   
     def info(cls,message):
-       TraceLog.__logger.info(message)
+        '''Log details info message.
+        @param message : log message ,string
+        '''
+        TraceLog.__logger.info(message)
     
     @classmethod
     def excepiton(cls,e):
+        '''Exception message.
+        @param message : log message or exception stack, string or exception
+        '''
         TraceLog.__logger.exception(e)
     
     @classmethod
     def error(cls, message):
+        '''Error message
+        @param message : log message or exception stack , string or exception
+        '''
         TraceLog.__logger.error(message)
         
     @classmethod
     def warning(cls, message):
+        '''Warning message.
+        @param message : log message or exception stack, string or exception
+        '''
         TraceLog.__logger.warn(message)
     
     @classmethod
     def success_job(cls, jobName):
+        '''Config or create jenkins job success.
+        @param jobName : jenkins job name, string
+        '''
         TraceLog.__file_success_logger.info(TraceLog.__job_format % (TraceLog.__success_index, jobName))
         TraceLog.__success_index = TraceLog.__success_index + 1
     
     @classmethod
     def failed_job(cls, jobName):
+        '''config or create jenkins job failed.
+        @param jobName : jenkins job name, string
+        '''
         TraceLog.__file_failed_logger.info(TraceLog.__job_format % (TraceLog.__failed_index, jobName))
         TraceLog.__failed_index = TraceLog.__failed_index + 1
 
