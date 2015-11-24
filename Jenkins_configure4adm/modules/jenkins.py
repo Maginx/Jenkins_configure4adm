@@ -48,7 +48,6 @@ class Jenkins(object):
         @type  job_name: str
         @return: True if Jenkins job exists
         '''
-        TraceLog.info("Check jenkins job exist or not [%s]" % jobName)
         try:
             self.get_job(jobName)
             return True
