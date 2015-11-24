@@ -26,17 +26,16 @@ if __name__ == "__main__":
         trunk = TrunkComponent(svnpath)
         commonpart = trunk.get_common_part()
         adapid, adaprelease = trunk.parse_svn_path()
-        jobname = admjenkins.get_job_releaseid(adaprelease)
-        if not jobname:
-            TraceLog.failed_job(jobname)
+        if not admjenkins.job_exists(item):
+            TraceLog.failed_job(item)
             continue
-        manjobname = admjenkins.get_man_job(jobname)
-        if admjenkins.config_job(jobname,commonpart):
-            TraceLog.success_job(jobname)
+        if admjenkins.config_job(item,commonpart):
+            TraceLog.success_job(item)
         else:
             TraceLog.failed_job(jobname)
-        if admjenkins.create_job(jobname,commonpart):
-            TraceLog.success_job(jobname)
+        manjobname = admjenkins.get_man_job(item)
+        if admjenkins.create_job(manjobname,commonpart):
+            TraceLog.success_job(manjobname)
         else:
-            TraceLog.failed_job(jobname)
+            TraceLog.failed_job(manjobname)
         
