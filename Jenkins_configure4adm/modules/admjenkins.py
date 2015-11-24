@@ -107,7 +107,7 @@ class AdmJenkins(Jenkins):
             return None
         parts = jobName.rsplit('-',1)
         manjob = ".man-".join(parts)
-        if self.job_exists(manjob):
+        if not self.job_exists(manjob):
             return manjob
         return None
         
@@ -122,9 +122,10 @@ class AdmJenkins(Jenkins):
         configure = self.get_job_xml(jobName)
         file = self.__create_temp_file(configure, jobName)
         manjob = self.get_man_job(jobName)
-        if not FileHandler.copyfile(file,"%s.xml" % manjob):
-            TraceLog.warning("copy file from [%s] to [%s]" , (file, "%s.xml" % manjob))
-            return False
+        if not manjob:
+            if not FileHandler.copyfile(file,"%s.xml" % manjob):
+                TraceLog.warning("copy file from [%s] to [%s]" , (file, "%s.xml" % manjob))
+                return False
         try:
             self.__modify_xml(pairs,file)
             if not self.reconfig_job(jobName,file):
