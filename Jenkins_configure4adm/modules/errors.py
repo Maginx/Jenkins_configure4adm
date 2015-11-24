@@ -1,5 +1,4 @@
-﻿# -*- coding: UTF-8 -*-
-import urllib2
+﻿import urllib2
 from urllib2 import HTTPError
 
 

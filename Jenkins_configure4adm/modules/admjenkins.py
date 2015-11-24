@@ -3,7 +3,7 @@ from modules.logger import TraceLog
 from modules.jenkins import Jenkins
 from modules.configurejenkins import ConfigureJenkins
 from datetime import datetime
-import os
+from modules.filehandler import FileHandler
 
 class AdmJenkins(Jenkins):
     ''' Configure jenkins job class
