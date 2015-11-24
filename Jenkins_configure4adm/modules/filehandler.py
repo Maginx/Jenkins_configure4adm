@@ -16,6 +16,6 @@ class FileHandler(File):
                 os.remove(destFile)
             shutil.copyfile(sourceFile,destFile)
         except  IOError:
-            TraceLog.warning("copy file failed from [%s] to [%s]", (sourceFile, destFile))
+            TraceLog.warning("copy file failed from [%s] to [%s]" % (sourceFile, destFile))
             return False
         return True
