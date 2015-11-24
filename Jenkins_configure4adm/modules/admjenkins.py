@@ -1,6 +1,5 @@
 ﻿import os
-import sys
-sys.path.append(sys.path.append(sys.path[0].split('modules')[-2]))
+from modules.logger import TraceLog
 from modules.jenkins import Jenkins
 from modules.configurejenkins import ConfigureJenkins
 from datetime import datetime
@@ -165,6 +164,7 @@ class AdmJenkins(Jenkins):
         @param jobName : jenkins job name
         @return svnpath : jenkins job corresponding svn path
         '''
+        TraceLog.info("get jenkins job svn path...")
         xml_content = self.get_job_xml(jobName)
         if not xml_content:
             return None
