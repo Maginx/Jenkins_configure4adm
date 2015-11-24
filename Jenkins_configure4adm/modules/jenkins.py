@@ -52,7 +52,6 @@ class Jenkins(object):
             self.get_job(jobName)
             return True
         except JenkinsException,e:
-            TraceLog.excepiton(e)
             return False
 
     def create_job(self, job_name, config_xml):

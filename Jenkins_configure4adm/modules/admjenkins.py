@@ -122,10 +122,9 @@ class AdmJenkins(Jenkins):
         configure = self.get_job_xml(jobName)
         file = self.__create_temp_file(configure, jobName)
         manjob = self.get_man_job(jobName)
-        if not manjob:
-            if not FileHandler.copyfile(file,"%s.xml" % manjob):
-                TraceLog.warning("copy file from [%s] to [%s]" , (file, "%s.xml" % manjob))
-                return False
+        if not FileHandler.copyfile(file,"%s.xml" % manjob):
+            TraceLog.warning("copy file from [%s] to [%s] error" , (file, "%s.xml" % manjob))
+            return False
         try:
             self.__modify_xml(pairs,file)
             if not self.reconfig_job(jobName,file):
