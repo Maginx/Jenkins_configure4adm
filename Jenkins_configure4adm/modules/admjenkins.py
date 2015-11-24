@@ -1,4 +1,5 @@
 ﻿from modules.jenkins import Jenkins
+from modules.configurejenkins import ConfigureJenkins
 
 class AdmJenkins(Jenkins):
     ''' Configure jenkins job class
