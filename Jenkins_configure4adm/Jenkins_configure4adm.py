@@ -1,4 +1,6 @@
-﻿from modules.jenkins import Jenkins
+﻿import sys
+sys.path.append('.')
+from modules.jenkins import Jenkins
 from modules import errors
 from modules.errors import ShellException
 from modules.admjenkins import AdmJenkins

@@ -5,13 +5,15 @@ import xml.etree.ElementTree as ET
 class ConfigParser(object):
     '''Configure xml file by xml.etree.ElementTree
     '''
-    def __init__(self, fpath, dest):
+    def __init__(self, fpath, dest = None):
         '''Initial Configure class
         @param fpath : source file path, string
         @param dest  : dest file path, string
         '''
         self._config_xml_src = fpath
         self._config_xml_dest = dest
+        if not dest:
+            self._config_xml_dest = self._config_xml_src
         self.tree = ET.parse(self._config_xml_src)
 
     def modify_value(self, path, newValue):

@@ -5,3 +5,4 @@ from modules import xmlconfigure
 from modules import filehandler
 from modules import component
 from modules import logger
+from modules import configurejenkins

@@ -1,8 +1,4 @@
 ﻿from modules.jenkins import Jenkins
-from modules.errors import EmptyException, NullException, XmlException, JenkinsException
-from modules.filehandler import FileHandler
-from modules.configurejenkins import ConfigureJenkins
-from modules.logger import TraceLog
 
 class AdmJenkins(Jenkins):
     ''' Configure jenkins job class
@@ -166,4 +162,6 @@ class AdmJenkins(Jenkins):
         xml_content = self.get_job_xml(jobName)
         if not xml_content:
             return None
-        return ConfigureJenkins.get_config_jenkins(file,xml_content,xml_content)
+        return ConfigureJenkins.get_config_jenkins("scm/locations/hudson.scm.SubversionSCM_-ModuleLocation/remote",xml_content)
+if __name__ == "__main__":
+    print("jenkins")
