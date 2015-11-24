@@ -36,8 +36,8 @@ if __name__ == "__main__":
         else:
             TraceLog.failed_job(item)
         manjobname = admjenkins.get_man_job(item)
-        if not manjobname:
-            TraceLog.info("%s man job existed")
+        if admjenkins.job_exists(manjobname):
+            TraceLog.info("man job exist now.")
             continue
         TraceLog.info("create jenkins job %s" % manjobname)
         if admjenkins.create_job(manjobname,commonpart):

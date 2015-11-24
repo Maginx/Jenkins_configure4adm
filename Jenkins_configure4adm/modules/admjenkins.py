@@ -108,9 +108,8 @@ class AdmJenkins(Jenkins):
             return None
         parts = jobName.rsplit('-',1)
         manjob = ".man-".join(parts)
-        if not self.job_exists(manjob):
-            return manjob
-        return None
+        return manjob
+
         
     def config_job(self, jobName, commonpart):
         '''Configure jenkins job
