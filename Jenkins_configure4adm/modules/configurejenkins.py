@@ -1,8 +1,6 @@
 ﻿import sys
 import io
 from mimify import File
-import os
-sys.path.append(sys.path.append(sys.path[0].split('modules')[-2]))
 from modules.errors import XmlException
 from modules.xmlconfigure import ConfigParser
 
