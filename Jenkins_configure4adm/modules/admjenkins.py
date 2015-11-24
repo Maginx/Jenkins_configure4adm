@@ -1,5 +1,10 @@
-﻿from modules.jenkins import Jenkins
+﻿import os
+import sys
+sys.path.append(sys.path.append(sys.path[0].split('modules')[-2]))
+from modules.jenkins import Jenkins
 from modules.configurejenkins import ConfigureJenkins
+from datetime import datetime
+import os
 
 class AdmJenkins(Jenkins):
     ''' Configure jenkins job class
@@ -163,6 +168,22 @@ class AdmJenkins(Jenkins):
         xml_content = self.get_job_xml(jobName)
         if not xml_content:
             return None
-        return ConfigureJenkins.get_config_jenkins("scm/locations/hudson.scm.SubversionSCM_-ModuleLocation/remote",xml_content)
+        fileName = self.__create_temp_file(xml_content)
+        result = ConfigureJenkins.get_config_jenkins("scm/locations/hudson.scm.SubversionSCM_-ModuleLocation/remote",fileName)
+        if not result:
+            self.__delete_temp_file(fileName)
+            return None
+        return result        
+    
+    def __create_temp_file(self, content):
+        name = str(datetime.now())
+        with open(name, 'wt') as write:
+            write.write(content)
+        return name
+
+    def __delete_temp_file(self, name):
+        os.remove(name)
+
 if __name__ == "__main__":
-    print("jenkins")
+    adm = AdmJenkins(url = None, user=None,password = None)
+    adm.get_svnurl(None)
