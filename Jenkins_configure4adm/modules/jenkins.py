@@ -61,9 +61,6 @@ class Jenkins(object):
         if not os.path.exists(config_xml):
             TraceLog.error("can't find the file %s " % config_xml)
             return False
-        if self.job_exists(job_name):
-            TraceLog.error("jenkins job already exist [%s] " % job_name)
-            return False
 
         with open(config_xml) as xml:
             data = xml.read()

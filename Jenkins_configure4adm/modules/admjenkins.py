@@ -4,6 +4,7 @@ from modules.jenkins import Jenkins
 from modules.configurejenkins import ConfigureJenkins
 from datetime import datetime
 from modules.filehandler import FileHandler
+from modules.errors import JenkinsException
 
 class AdmJenkins(Jenkins):
     ''' Configure jenkins job class
@@ -150,9 +151,6 @@ class AdmJenkins(Jenkins):
         @param jobName      : jenkins job name,string
         @param commonpart   : common part to configure, string
         '''
-        if self.job_exists(jobName):
-            TraceLog.warning("jenkins job alredy exist [%s]" % jobName)
-            return True
         pairs = self.__MAN_PAGE % locals() 
         destfile = "%s.xml" % jobName
         try:
