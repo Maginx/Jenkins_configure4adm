@@ -32,7 +32,7 @@ if __name__ == "__main__":
         if admjenkins.config_job(item,commonpart):
             TraceLog.success_job(item)
         else:
-            TraceLog.failed_job(jobname)
+            TraceLog.failed_job(item)
         manjobname = admjenkins.get_man_job(item)
         if admjenkins.create_job(manjobname,commonpart):
             TraceLog.success_job(manjobname)
