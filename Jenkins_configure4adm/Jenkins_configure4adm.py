@@ -14,6 +14,7 @@ if __name__ == "__main__":
     for item in items.split('/r/n'):
         item = item.strip()
         print(u"\nConfiguring jenkins job ---------- %s ----------" % item)
+        TraceLog.info("Check jenkins job exist or not [%s]" % jobName)
         if not admjenkins.job_exists(item):
             TraceLog.error("jenkins job doesn't exsit [%s]" % item)
             TraceLog.failed_job(item)
@@ -29,11 +30,13 @@ if __name__ == "__main__":
         if not admjenkins.job_exists(item):
             TraceLog.failed_job(item)
             continue
+        TraceLog.info("config jenkins job %s" % item)
         if admjenkins.config_job(item,commonpart):
             TraceLog.success_job(item)
         else:
             TraceLog.failed_job(item)
         manjobname = admjenkins.get_man_job(item)
+        TraceLog.info("create jenkins job %s" % manjobname)
         if admjenkins.create_job(manjobname,commonpart):
             TraceLog.success_job(manjobname)
         else:
