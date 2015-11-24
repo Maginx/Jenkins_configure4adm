@@ -120,14 +120,16 @@ class AdmJenkins(Jenkins):
         '''
         pairs = self.__NO_MAN_PAGE % locals()
         configure = self.get_job_xml(jobName)
+        file = self.__create_temp_file(configure, jobName)
         manjob = self.get_man_job(jobName)
-        if not FileHandler.copyfile(configure,"%s.xml" % manjob):
-            TraceLog.warning("copy file from [%s] to [%s]" , (configure, "%s.xml" % manjob))
+        if not FileHandler.copyfile(file,"%s.xml" % manjob):
+            TraceLog.warning("copy file from [%s] to [%s]" , (file, "%s.xml" % manjob))
             return False
         try:
-            self.__modify_xml(pairs,configure)
-            if not self.reconfig_job(jobName,configure):
+            self.__modify_xml(pairs,file)
+            if not self.reconfig_job(jobName,file):
                 return False
+            self.__delete_temp_file(file)
         except Exception,e:
             TraceLog.error(e)
             return False
@@ -175,8 +177,8 @@ class AdmJenkins(Jenkins):
             return None
         return result        
     
-    def __create_temp_file(self, content):
-        name = str(datetime.now())
+    def __create_temp_file(self, content, name = None):
+        name = str(datetime.now()) if not name else name + str(datetime.now()) 
         with open(name, 'wt') as write:
             write.write(content)
         return name
