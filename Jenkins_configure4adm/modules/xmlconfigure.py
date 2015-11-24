@@ -27,7 +27,7 @@ class ConfigParser(object):
             print 'can not find elements from path: %s' %path
             raise XmlException( 'Not found element')
         else:
-            elements[0].text = newvalue
+            elements[0].text = newValue
             self.tree.write(self._config_xml_dest)
 
     def add_node(self,path,node_name,text):
@@ -41,6 +41,10 @@ class ConfigParser(object):
         if elements.__len__() == 0:
             print 'can not find elements from path: %s' %path
             raise XmlException( 'Not found element')
+       
+        for node in elements[0].getchildren():
+            if node.text == text:
+                return True
         node = ET.Element(node_name)
         node.text = text
         elements[0].append(node)
