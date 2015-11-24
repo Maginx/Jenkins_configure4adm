@@ -45,9 +45,13 @@
     <Compile Include="modules\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="testcases\admjenkinstestcase.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="modules\" />
+    <Folder Include="testcases\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

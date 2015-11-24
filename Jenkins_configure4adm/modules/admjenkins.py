@@ -119,9 +119,6 @@ class AdmJenkins(Jenkins):
         @exception : XmlException, Exception
         '''
         pairs = self.__NO_MAN_PAGE % locals()
-        if not self.job_exists(jobName):
-            TraceLog.warning("jenkins job name does not exist [%s]" % jobName)
-            return False
         configure = self.get_job_xml(jobName)
         manjob = self.get_man_job(jobName)
         if not FileHandler.copyfile(configure,"%s.xml" % manjob):
@@ -142,7 +139,7 @@ class AdmJenkins(Jenkins):
         @param xmlfile  : configure xml file path
         '''
         for pair in pairs.strip().split(','):
-            if not ConfigureJenkins.reconfigjenkins(pair.split('==')[0], pair.split('==')[1], xmlfile):
+            if not ConfigureJenkins.reconfig_jenkins(pair.split('==')[0], pair.split('==')[1], xmlfile):
                 print("config jenkins job configure file failed to %s" % pair)
 
     def create_job(self, jobName, commonpart):
@@ -189,4 +186,4 @@ class AdmJenkins(Jenkins):
 
 if __name__ == "__main__":
     adm = AdmJenkins(url = None, user=None,password = None)
-    adm.get_svnurl(None)
+    #adm.get_svnurl(None)
