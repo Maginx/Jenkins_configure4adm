@@ -120,19 +120,20 @@ class AdmJenkins(Jenkins):
         '''
         pairs = self.__NO_MAN_PAGE % locals()
         configure = self.get_job_xml(jobName)
-        file = self.__create_temp_file(configure, jobName)
+        file = self.get_job_xml_filepath(configure,jobName)
         manjob = self.get_man_job(jobName)
         if not FileHandler.copyfile(file,"%s.xml" % manjob):
-            TraceLog.warning("copy file from [%s] to [%s] error" , (file, "%s.xml" % manjob))
+            TraceLog.warning("copy file from [%s] to [%s] " , (file, "%s.xml" % manjob))
             return False
         try:
             self.__modify_xml(pairs,file)
             if not self.reconfig_job(jobName,file):
                 return False
-            self.__delete_temp_file(file)
         except Exception,e:
             TraceLog.error(e)
             return False
+        finally:
+            FileHandler.delete_temp_file(file)
         return True
 
     def __modify_xml(self, pairs, xmlfile):
@@ -163,26 +164,16 @@ class AdmJenkins(Jenkins):
         @param jobName : jenkins job name
         @return svnpath : jenkins job corresponding svn path
         '''
-        TraceLog.info("get jenkins job svn path...")
-        xml_content = self.get_job_xml(jobName)
-        if not xml_content:
+        TraceLog.info("get jenkins job svn path")
+        xmlfilename = self.get_job_xml_filepath(jobName)
+        if not xmlfilename:
             return None
-        fileName = self.__create_temp_file(xml_content)
-        result = ConfigureJenkins.get_config_jenkins("scm/locations/hudson.scm.SubversionSCM_-ModuleLocation/remote",fileName)
+        result = ConfigureJenkins.get_config_jenkins("scm/locations/hudson.scm.SubversionSCM_-ModuleLocation/remote",xmlfilename)
         if not result:
-            self.__delete_temp_file(fileName)
+            FileHandler.delete_temp_file(xmlfilename)
             return None
         return result        
     
-    def __create_temp_file(self, content, name = None):
-        name = str(datetime.now()) if not name else name + str(datetime.now()) 
-        with open(name, 'wt') as write:
-            write.write(content)
-        return name
-
-    def __delete_temp_file(self, name):
-        os.remove(name)
-
 if __name__ == "__main__":
     adm = AdmJenkins(url = None, user=None,password = None)
     #adm.get_svnurl(None)

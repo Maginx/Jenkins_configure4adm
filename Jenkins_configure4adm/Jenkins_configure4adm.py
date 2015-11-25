@@ -13,7 +13,7 @@ if __name__ == "__main__":
     admjenkins = AdmJenkins(url = None, user = None, password = None)
     for item in items.split('/r/n'):
         item = item.strip()
-        TraceLog.info(u"\nConfiguring jenkins job ---------- %s ----------" % item)
+        TraceLog.info(u"---------- %s ----------" % item)
         TraceLog.info("Check jenkins job exist or not [%s]" % item)
         if not admjenkins.job_exists(item):
             TraceLog.error("jenkins job doesn't exsit [%s]" % item)

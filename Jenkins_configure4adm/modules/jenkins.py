@@ -9,6 +9,7 @@ import warnings
 from shell import run_shell
 from errors import JenkinsException
 from modules.logger import TraceLog
+from modules.filehandler import FileHandler
 
 class Jenkins(object):
     '''Jenkins class using urllib2
@@ -65,9 +66,7 @@ class Jenkins(object):
             data = xml.read()
             headers = {'Content-Type': 'text/xml'}
             reconfig_url = self._url + self._JENKINS_CREATE_JOB % locals()
-            print self._url + "job/" + job_name
             self.__open_jenkins(urllib2.Request(reconfig_url, data, headers))
-        
         return True
 
     def reconfig_job(self, job_name, config_xml):
@@ -105,7 +104,7 @@ class Jenkins(object):
             raise JenkinsException(e)
 
     def get_job_xml(self, job_name):
-        '''Get jenkins job xml format file
+        '''Get jenkins job xml format file and return file content.
         @param job_name : jenkins job name,string
         @return : xml file content, string
         @exception : JenkinsException
@@ -121,6 +120,13 @@ class Jenkins(object):
             print(e)
             return None
 
+    def get_job_xml_filepath(self, job_name):
+        '''Get jenkins job xml format file and return file path.
+        @param job_name : jenkins job name, string
+        @return filepath : xml file path
+        '''
+        return FileHandler.create_temp_file(self.get_job_xml(job_name))
+     
     def build(self, job_name):
         '''
         @param parameters: parameters for job, or None.
