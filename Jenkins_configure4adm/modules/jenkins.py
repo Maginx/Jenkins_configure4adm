@@ -64,9 +64,9 @@ class Jenkins(object):
 
         with open(config_xml) as xml:
             data = xml.read()
-            headers = {'Content-Type': 'text/xml'}
-            reconfig_url = self._url + self._JENKINS_CREATE_JOB % locals()
-            self.__open_jenkins(urllib2.Request(reconfig_url, data, headers))
+        headers = {'Content-Type': 'text/xml'}
+        reconfig_url = self._url + self._JENKINS_CREATE_JOB % locals()
+        self.__open_jenkins(urllib2.Request(reconfig_url, data, headers))
         return True
 
     def reconfig_job(self, job_name, config_xml):
