@@ -13,7 +13,7 @@ if __name__ == "__main__":
     admjenkins = AdmJenkins(url = None, user = None, password = None)
     for item in items.split('/r/n'):
         item = item.strip()
-        TraceLog.info(u"---------- %s ----------" % item)
+        TraceLog.info(u"---------- <b>%s</b> ----------" % item)
         TraceLog.info("Check jenkins job exist or not [%s]" % item)
         if not admjenkins.job_exists(item):
             TraceLog.error("jenkins job doesn't exsit [%s]" % item)
@@ -21,7 +21,7 @@ if __name__ == "__main__":
             continue
         svnpath = admjenkins.get_svnurl(item)
         if not svnpath:
-             TraceLog.error("jenkins job svn path not exist [%s]" % svnpath)
+             TraceLog.error("jenkins job svn path not exist <b>[%s]</b>" % svnpath)
              TraceLog.failed_job(item)
              continue
         trunk = TrunkComponent(svnpath)
@@ -30,7 +30,7 @@ if __name__ == "__main__":
         if not admjenkins.job_exists(item):
             TraceLog.failed_job(item)
             continue
-        TraceLog.info("config jenkins job %s" % item)
+        TraceLog.info("config jenkins job <b>[%s]</b>" % item)
         if admjenkins.config_job(item,commonpart):
             TraceLog.success_job(item)
         else:
@@ -39,10 +39,10 @@ if __name__ == "__main__":
         if admjenkins.job_exists(manjobname):
             TraceLog.info("man job exist now.")
             continue
-        TraceLog.info("create jenkins job %s" % manjobname)
+        TraceLog.info("create jenkins job <b>[%s]</b>" % manjobname)
         if admjenkins.create_job(manjobname,commonpart):
             TraceLog.success_job(manjobname)
         else:
             TraceLog.failed_job(manjobname)
-        TraceLog.info("creationg end jenkins job %s" % manjobname)
+        TraceLog.info("created jenkins job <b>[%s]</b>" % manjobname)
         
