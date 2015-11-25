@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 import mock
 import sys
 sys.path.append(sys.path[0].split('testcases')[-2])
@@ -16,7 +16,7 @@ class AdmJenkinsTestCase(unittest.TestCase):
 
     @mock.patch(target = "modules.admjenkins.AdmJenkins.reconfig_job")
     @mock.patch(target = "modules.admjenkins.AdmJenkins.get_man_job")
-    @mock.patch(target = 'modules.admjenkins.AdmJenkins.get_job_xml')
+    @mock.patch(target = 'modules.admjenkins.AdmJenkins.get_job_xml_filepath')
     def test_config_job(self, mock_get_job_xml, mock_get_man_job, mock_reconfig_job):
         mock_get_job_xml.return_value = "D:\userdata\j69wang\Desktop\config.xml"
         mock_get_man_job.return_value = self.manjobname
