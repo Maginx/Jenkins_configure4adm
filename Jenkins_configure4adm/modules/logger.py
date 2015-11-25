@@ -7,12 +7,12 @@ class TraceLog(object):
     __logger = logging.getLogger("info")
     __logger.setLevel(logging.DEBUG)
     __streamhandler = logging.StreamHandler()
-    __formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    __formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
     __streamhandler.setFormatter(__formatter)
     __logger.addHandler(__streamhandler)
 
     __job_format = "%s - job name : %s"
-    __file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(message)s")
+    __file_formatter = logging.Formatter("%(asctime)s - %(message)s")
 
     __success_index = 1
     __file_success_logger = logging.getLogger("success")
