@@ -119,8 +119,7 @@ class AdmJenkins(Jenkins):
         @exception : XmlException, Exception
         '''
         pairs = self.__NO_MAN_PAGE % locals()
-        configure = self.get_job_xml(jobName)
-        file = self.get_job_xml_filepath(configure,jobName)
+        file = self.get_job_xml_filepath(jobName)
         manjob = self.get_man_job(jobName)
         if not FileHandler.copyfile(file,"%s.xml" % manjob):
             TraceLog.warning("copy file from [%s] to [%s] " , (file, "%s.xml" % manjob))
