@@ -62,11 +62,13 @@ class Jenkins(object):
             TraceLog.error("can't find the file %s " % config_xml)
             return False
 
+        TraceLog.info("begin %s" % job_name)
         with open(config_xml) as xml:
             data = xml.read()
         headers = {'Content-Type': 'text/xml'}
         reconfig_url = self._url + self._JENKINS_CREATE_JOB % locals()
         self.__open_jenkins(urllib2.Request(reconfig_url, data, headers))
+        TraceLog.info("end %s" % job_name)
         return True
 
     def reconfig_job(self, job_name, config_xml):
