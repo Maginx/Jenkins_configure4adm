@@ -44,4 +44,5 @@ if __name__ == "__main__":
             TraceLog.success_job(manjobname)
         else:
             TraceLog.failed_job(manjobname)
+        TraceLog.info("creationg end jenkins job %s" % manjobname)
         
