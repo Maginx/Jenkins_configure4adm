@@ -1,5 +1,4 @@
-﻿# -*- coding: UTF-8 -*-
-import os
+﻿import os
 import base64, urllib2
 import json
 import re
